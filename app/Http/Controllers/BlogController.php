@@ -18,7 +18,10 @@ class BlogController extends Controller
     public function index()
     {
        //\DB::enableQueryLog();
-        $posts = Post::with('author')->latestFirst()->paginate($this->pageLimit);
+        $posts = Post::with('author')
+                ->latestFirst()
+                ->published()
+                ->paginate($this->pageLimit);
         return view('blog.index', compact('posts'));
         //view('blog.index', compact('posts'))->render();
        //dd( \DB::getQueryLog() );
@@ -51,9 +54,9 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view('blog.show', compact('post'));
     }
 
     /**
